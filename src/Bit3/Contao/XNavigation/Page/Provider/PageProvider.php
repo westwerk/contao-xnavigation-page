@@ -16,13 +16,19 @@ namespace Bit3\Contao\XNavigation\Page\Provider;
 use Bit3\FlexiTree\Event\CollectItemsEvent;
 use Bit3\FlexiTree\Event\CreateItemEvent;
 use Contao\PageModel;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class Page
  */
-class PageProvider implements EventSubscriberInterface
+class PageProvider extends \Controller implements EventSubscriberInterface
 {
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -71,7 +77,16 @@ class PageProvider implements EventSubscriberInterface
 			$page = \PageModel::findByPk($item->getName());
 
 			if ($page) {
-				$item->setUri(\Frontend::generateFrontendUrl($page->row()));
+				if ($page->type == 'redirect') {
+					$uri = $page->url;
+					$uri = html_entity_decode($uri, ENT_QUOTES, 'UTF-8');
+					$uri = $this->replaceInsertTags($uri);
+				}
+				else {
+					$uri = \Frontend::generateFrontendUrl($page->row());
+				}
+
+				$item->setUri($uri);
 				$item->setLabel($page->title);
 
 				if ($page->cssClass) {
@@ -83,6 +98,17 @@ class PageProvider implements EventSubscriberInterface
 
 					$class = $item->getLabelAttribute('class', '');
 					$item->setLabelAttribute('class', trim($class . ' ' . $page->cssClass));
+				}
+
+				if ($page->xnavigationLightbox) {
+					$item->setLinkAttribute('data-lightbox', 'page-' . $page->id);
+
+					if ($page->xnavigationLightboxWidth) {
+						$item->setLinkAttribute('data-lightbox-width', $page->xnavigationLightboxWidth);
+					}
+					if ($page->xnavigationLightboxHeight) {
+						$item->setLinkAttribute('data-lightbox-height', $page->xnavigationLightboxHeight);
+					}
 				}
 
 				$currentPage = $this->getCurrentPage();

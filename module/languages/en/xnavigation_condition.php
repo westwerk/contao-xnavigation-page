@@ -15,6 +15,10 @@
 /**
  * Conditions
  */
+$GLOBALS['TL_LANG']['xnavigation_condition']['page_id']        = array(
+	'Page ID',
+	'Filter pages by their ID.'
+);
 $GLOBALS['TL_LANG']['xnavigation_condition']['page_guests']    = array(
 	'Page guests only',
 	'Filter pages by their "guests only" status.'

@@ -29,6 +29,7 @@ $GLOBALS['XNAVIGATION_PROVIDER']['page'] = 'Bit3\Contao\XNavigation\Page\Provide
 /**
  * Conditions
  */
+$GLOBALS['XNAVIGATION_CONDITION']['page_id']        = 'Bit3\Contao\XNavigation\Condition\PageIdCondition';
 $GLOBALS['XNAVIGATION_CONDITION']['page_guests']    = 'Bit3\Contao\XNavigation\Page\Condition\PageGuestsCondition';
 $GLOBALS['XNAVIGATION_CONDITION']['page_protected'] = 'Bit3\Contao\XNavigation\Page\Condition\PageProtectedCondition';
 $GLOBALS['XNAVIGATION_CONDITION']['page_groups']    = 'Bit3\Contao\XNavigation\Page\Condition\PageGroupsCondition';

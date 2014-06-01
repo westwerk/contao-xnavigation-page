@@ -14,6 +14,11 @@
 /**
  * Palettes
  */
+$GLOBALS['TL_DCA']['tl_xnavigation_condition']['metapalettes']['page_id']        = array
+(
+	'condition' => array('type', 'title'),
+	'settings'  => array('page_id_page_id', 'invert'),
+);
 $GLOBALS['TL_DCA']['tl_xnavigation_condition']['metapalettes']['page_guests']    = array
 (
 	'condition' => array('type', 'title'),
@@ -43,6 +48,12 @@ $GLOBALS['TL_DCA']['tl_xnavigation_condition']['metapalettes']['page_published']
 /**
  * Fields
  */
+$GLOBALS['TL_DCA']['tl_xnavigation_condition']['fields']['page_id_page_id']                        = array
+(
+	'label'     => &$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_id_page_id'],
+	'inputType' => 'pageTree',
+	'sql'       => "int(10) NOT NULL default '0'"
+);
 $GLOBALS['TL_DCA']['tl_xnavigation_condition']['fields']['page_guests_accepted_guests_status']     = array
 (
 	'label'     => &$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_guests_accepted_guests_status'],
