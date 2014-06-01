@@ -17,10 +17,38 @@ use Bit3\FlexiTree\Condition\ConditionInterface;
 use Bit3\FlexiTree\ItemInterface;
 
 /**
- * Class PagePublishedCondition
+ * Class PageTypeCondition
  */
-class PagePublishedCondition implements ConditionInterface
+class PageTypeCondition implements ConditionInterface
 {
+
+	/**
+	 * @var string
+	 */
+	protected $acceptedType;
+
+	public function __construct($acceptedType = '?')
+	{
+		$this->acceptedType = $acceptedType;
+	}
+
+	/**
+	 * @param string $acceptedHideStatus
+	 */
+	public function setAcceptedType($acceptedHideStatus)
+	{
+		$this->acceptedType = (string) $acceptedHideStatus;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAcceptedType()
+	{
+		return $this->acceptedType;
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -30,11 +58,8 @@ class PagePublishedCondition implements ConditionInterface
 			return true;
 		}
 
-		$published = $item->getExtra('published');
-		$start     = $item->getExtra('start');
-		$stop      = $item->getExtra('stop');
-		$time      = time();
-		return $published && (!$start || $start <= $time) && (!$stop || $stop >= $time);
+		$type = $item->getExtra('type');
+		return $type == $this->acceptedType;
 	}
 
 	/**
@@ -42,6 +67,6 @@ class PagePublishedCondition implements ConditionInterface
 	 */
 	public function describe()
 	{
-		return 'page.published';
+		return 'page.type == ' . $this->acceptedType;
 	}
 }

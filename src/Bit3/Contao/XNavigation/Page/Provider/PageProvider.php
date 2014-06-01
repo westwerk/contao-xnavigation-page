@@ -11,7 +11,7 @@
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
 
-namespace Bit3\Contao\XNavigation\Provider;
+namespace Bit3\Contao\XNavigation\Page\Provider;
 
 use Bit3\FlexiTree\Event\CollectItemsEvent;
 use Bit3\FlexiTree\Event\CreateItemEvent;
@@ -39,12 +39,11 @@ class PageProvider implements EventSubscriberInterface
 		$item = $event->getParentItem();
 
 		if ($item->getType() == 'page') {
-			$t = \PageModel::getTable();
+			$t          = \PageModel::getTable();
 			$arrColumns = array("$t.pid=?");
 
-			if (!BE_USER_LOGGED_IN)
-			{
-				$time = time();
+			if (!BE_USER_LOGGED_IN) {
+				$time         = time();
 				$arrColumns[] = "($t.start='' OR $t.start<$time) AND ($t.stop='' OR $t.stop>$time) AND $t.published=1";
 			}
 
