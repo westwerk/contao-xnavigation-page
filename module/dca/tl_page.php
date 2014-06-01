@@ -34,6 +34,7 @@ foreach (array_keys($GLOBALS['TL_PTY']) as $pty) {
 			$fields[] = 'sitemap';
 		}
 		$fields[] = 'xnavigationSubitle';
+		$fields[] = 'xnavigationLightbox';
 
 		MetaPalettes::appendAfter(
 			'tl_page',
@@ -44,6 +45,13 @@ foreach (array_keys($GLOBALS['TL_PTY']) as $pty) {
 	}
 }
 
+$GLOBALS['TL_DCA']['tl_page']['palettes']['__selector__'][] = 'xnavigationLightbox';
+
+$GLOBALS['TL_DCA']['tl_page']['metasubpalettes']['xnavigationLightbox'] = array(
+	'xnavigationLightboxWidth',
+	'xnavigationLightboxHeight',
+);
+
 /**
  * Fields
  */
@@ -53,6 +61,42 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['hide']['eval']['tl_class']   = 'w50 m12
 $GLOBALS['TL_DCA']['tl_page']['fields']['xnavigationSubitle'] = array
 (
 	'label'     => &$GLOBALS['TL_LANG']['tl_page']['xnavigationSubitle'],
+	'exclude'   => true,
+	'inputType' => 'text',
+	'eval'      => array(
+		'tl_class'  => 'w50',
+		'maxlength' => 255,
+	),
+	'sql'       => "varchar(255) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_page']['fields']['xnavigationLightbox'] = array
+(
+	'label'     => &$GLOBALS['TL_LANG']['tl_page']['xnavigationLightbox'],
+	'exclude'   => true,
+	'inputType' => 'checkbox',
+	'eval'      => array(
+		'tl_class'  => 'clr',
+		'submitOnChange' => true,
+	),
+	'sql'       => "char(1) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_page']['fields']['xnavigationLightboxWidth'] = array
+(
+	'label'     => &$GLOBALS['TL_LANG']['tl_page']['xnavigationLightboxWidth'],
+	'exclude'   => true,
+	'inputType' => 'text',
+	'eval'      => array(
+		'tl_class'  => 'w50',
+		'maxlength' => 255,
+	),
+	'sql'       => "varchar(255) NOT NULL default ''"
+);
+
+$GLOBALS['TL_DCA']['tl_page']['fields']['xnavigationLightboxHeight'] = array
+(
+	'label'     => &$GLOBALS['TL_LANG']['tl_page']['xnavigationLightboxHeight'],
 	'exclude'   => true,
 	'inputType' => 'text',
 	'eval'      => array(

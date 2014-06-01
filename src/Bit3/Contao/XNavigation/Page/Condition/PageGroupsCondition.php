@@ -11,7 +11,7 @@
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
 
-namespace Bit3\Contao\XNavigation\Condition;
+namespace Bit3\Contao\XNavigation\Page\Condition;
 
 use Bit3\FlexiTree\Condition\ConditionInterface;
 use Bit3\FlexiTree\ItemInterface;
@@ -34,7 +34,7 @@ class PageGroupsCondition implements ConditionInterface
 			return false;
 		}
 
-		$pageGroups = $item->getExtra('groups');
+		$pageGroups   = $item->getExtra('groups');
 		$memberGroups = \FrontendUser::getInstance()->groups;
 
 		$groups = array_intersect($memberGroups, $pageGroups);

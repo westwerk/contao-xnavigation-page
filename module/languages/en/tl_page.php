@@ -18,6 +18,18 @@ $GLOBALS['TL_LANG']['tl_page']['xnavigationSubitle'] = array(
 	'Navigation subtitle',
 	'The subtitle shown will be shown in the navigation as subtitle of the menu label.'
 );
+$GLOBALS['TL_LANG']['tl_page']['xnavigationLightbox'] = array(
+	'Open in lightbox',
+	'Open the page within a lightbox.'
+);
+$GLOBALS['TL_LANG']['tl_page']['xnavigationLightboxWidth'] = array(
+	'Lightbox width',
+	'Please enter the lightbox width, e.g. "800px".'
+);
+$GLOBALS['TL_LANG']['tl_page']['xnavigationLightboxHeight'] = array(
+	'Lightbox height',
+	'Plese enter the lightbox height, e.g. "600px".'
+);
 
 /**
  * Legends

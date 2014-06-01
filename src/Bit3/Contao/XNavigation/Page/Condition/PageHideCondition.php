@@ -11,7 +11,7 @@
  * @license    http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
 
-namespace Bit3\Contao\XNavigation\Condition;
+namespace Bit3\Contao\XNavigation\Page\Condition;
 
 use Bit3\FlexiTree\Condition\ConditionInterface;
 use Bit3\FlexiTree\ItemInterface;
@@ -21,6 +21,7 @@ use Bit3\FlexiTree\ItemInterface;
  */
 class PageHideCondition implements ConditionInterface
 {
+
 	/**
 	 * @var bool
 	 */
