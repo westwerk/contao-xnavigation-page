@@ -44,18 +44,22 @@ class DefaultSubscriber implements EventSubscriberInterface
 		if ($menu->root == 'page') {
 			switch ($menu->page_root) {
 				case 'root':
+					$event->setItemType('page');
 					$event->setItemName($this->getCurrentPage()->rootId);
 					break;
 
 				case 'parent':
+					$event->setItemType('page');
 					$event->setItemName($this->getCurrentPage()->pid);
 					break;
 
 				case 'current':
+					$event->setItemType('page');
 					$event->setItemName($this->getCurrentPage()->id);
 					break;
 
 				case 'level':
+					$event->setItemType('page');
 					$level  = $menu->page_root_level;
 					$trail  = $this->getCurrentPage()->trail;
 					$pageId = isset($trail[$level])
@@ -65,14 +69,21 @@ class DefaultSubscriber implements EventSubscriberInterface
 					break;
 
 				case 'custom':
+					$event->setItemType('page');
 					$event->setItemName($menu->page_root_id);
+					break;
+
+				case 'individual':
+					$event->setItemType('pages');
+					$ids = deserialize($menu->page_root_ids_order, true);
+					$ids = implode(',', $ids);
+					$event->setItemName($ids);
 					break;
 
 				default:
 					return;
 			}
 
-			$event->setItemType('page');
 			$event->stopPropagation();
 		}
 	}
