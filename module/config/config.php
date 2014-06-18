@@ -36,3 +36,4 @@ $GLOBALS['XNAVIGATION_CONDITION']['page_groups']    = 'Bit3\Contao\XNavigation\P
 $GLOBALS['XNAVIGATION_CONDITION']['page_hide']      = 'Bit3\Contao\XNavigation\Page\Condition\PageHideCondition';
 $GLOBALS['XNAVIGATION_CONDITION']['page_sitemap']   = 'Bit3\Contao\XNavigation\Page\Condition\PageSitemapCondition';
 $GLOBALS['XNAVIGATION_CONDITION']['page_published'] = 'Bit3\Contao\XNavigation\Page\Condition\PagePublishedCondition';
+$GLOBALS['XNAVIGATION_CONDITION']['page_type']      = 'Bit3\Contao\XNavigation\Page\Condition\PageTypeCondition';

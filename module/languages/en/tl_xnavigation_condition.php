@@ -31,6 +31,10 @@ $GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_sitemap_accepted_sitemap_s
 	'Accepted status',
 	'Please choose the accepted status of the "show in sitemap" flag.'
 );
+$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_type_accepted_type'] = array(
+	'Accepted types',
+	'Please choose the accepted page type.'
+);
 
 /**
  * Reference

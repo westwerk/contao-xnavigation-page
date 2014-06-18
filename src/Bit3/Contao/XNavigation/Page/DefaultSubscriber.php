@@ -16,6 +16,7 @@ namespace Bit3\Contao\XNavigation\Page;
 use Bit3\Contao\XNavigation\Event\CreateDefaultConditionEvent;
 use Bit3\Contao\XNavigation\Event\EvaluateRootEvent;
 use Bit3\Contao\XNavigation\Model\ConditionModel;
+use Bit3\Contao\XNavigation\Page\Condition\PageTypeCondition;
 use Bit3\Contao\XNavigation\Twig\TwigExtension;
 use Bit3\Contao\XNavigation\XNavigationEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -107,10 +108,40 @@ class DefaultSubscriber implements EventSubscriberInterface
 		$condition->page_hide_accepted_hide_status = '';
 		$condition->save();
 
-		// login status
+		// page type
 		$or          = new ConditionModel();
 		$or->pid     = $root->id;
 		$or->sorting = 1024;
+		$or->type    = 'or';
+		$or->save();
+
+		{
+			$condition                          = new ConditionModel();
+			$condition->pid                     = $or->id;
+			$condition->sorting                 = 128;
+			$condition->type                    = 'page_type';
+			$condition->page_type_accepted_type = 'regular';
+			$condition->save();
+
+			$condition                          = new ConditionModel();
+			$condition->pid                     = $or->id;
+			$condition->sorting                 = 256;
+			$condition->type                    = 'page_type';
+			$condition->page_type_accepted_type = 'forward';
+			$condition->save();
+
+			$condition                          = new ConditionModel();
+			$condition->pid                     = $or->id;
+			$condition->sorting                 = 512;
+			$condition->type                    = 'page_type';
+			$condition->page_type_accepted_type = 'redirect';
+			$condition->save();
+		}
+
+		// login status
+		$or          = new ConditionModel();
+		$or->pid     = $root->id;
+		$or->sorting = 2048;
 		$or->type    = 'or';
 		$or->save();
 

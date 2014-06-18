@@ -44,6 +44,11 @@ $GLOBALS['TL_DCA']['tl_xnavigation_condition']['metapalettes']['page_published']
 	'condition' => array('type', 'title'),
 	'settings'  => array('invert'),
 );
+$GLOBALS['TL_DCA']['tl_xnavigation_condition']['metapalettes']['page_type']      = array
+(
+	'condition' => array('type', 'title'),
+	'settings'  => array('page_type_accepted_type', 'invert'),
+);
 
 /**
  * Fields
@@ -96,6 +101,18 @@ $GLOBALS['TL_DCA']['tl_xnavigation_condition']['fields']['page_sitemap_accepted_
 	'eval'      => array(
 		'mandatory' => true,
 		'multiple'  => true,
+	),
+	'sql'       => "varchar(255) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_xnavigation_condition']['fields']['page_type_accepted_type']                = array
+(
+	'label'     => &$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_type_accepted_type'],
+	'inputType' => 'select',
+	'options'   => array_keys($GLOBALS['TL_PTY']),
+	'reference' => &$GLOBALS['TL_LANG']['PTY'],
+	'eval'      => array(
+		'includeBlankOption' => true,
+		'mandatory'          => true,
 	),
 	'sql'       => "varchar(255) NOT NULL default ''"
 );
