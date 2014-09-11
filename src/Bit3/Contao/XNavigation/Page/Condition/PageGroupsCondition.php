@@ -34,7 +34,12 @@ class PageGroupsCondition implements ConditionInterface
 			return false;
 		}
 
-		$pageGroups   = $item->getExtra('groups');
+		$pageGroups   = (array) $item->getExtra('groups');
+
+        if (empty($pageGroups)) {
+            return true;
+        }
+
 		$memberGroups = \FrontendUser::getInstance()->groups;
 
 		$groups = array_intersect($memberGroups, $pageGroups);
