@@ -166,25 +166,32 @@ class DefaultSubscriber implements EventSubscriberInterface
 
 			{
 				// login status -> not protected
-				$condition                                         = new ConditionModel();
-				$condition->pid                                    = $and->id;
-				$condition->sorting                                = 128;
-				$condition->type                                   = 'page_protected';
-				$condition->page_members_accepted_protected_status = '';
+				$condition                                           = new ConditionModel();
+				$condition->pid                                      = $and->id;
+				$condition->sorting                                  = 128;
+				$condition->type                                     = 'page_protected';
+				$condition->page_protected_accepted_protected_status = '';
 				$condition->save();
 
-				// login status -> not logged in
+				// login status -> OR ...
+                $or          = new ConditionModel();
+                $or->pid     = $and->id;
+                $or->sorting = 256;
+                $or->type    = 'or';
+                $or->save();
+
+				// login status -> OR -> not logged in
 				$condition                                     = new ConditionModel();
-				$condition->pid                                = $and->id;
-				$condition->sorting                            = 256;
+				$condition->pid                                = $or->id;
+				$condition->sorting                            = 128;
 				$condition->type                               = 'member_login';
 				$condition->member_login_accepted_login_status = 'logged_out';
 				$condition->save();
 
-				// login status -> page guests only
+				// login status -> OR -> page not guests only
 				$condition                                     = new ConditionModel();
-				$condition->pid                                = $and->id;
-				$condition->sorting                            = 512;
+				$condition->pid                                = $or->id;
+				$condition->sorting                            = 256;
 				$condition->type                               = 'page_guests';
 				$condition->page_guests_accepted_guests_status = '';
 				$condition->save();
@@ -201,11 +208,11 @@ class DefaultSubscriber implements EventSubscriberInterface
 
 			{
 				// login status -> protected
-				$condition                                         = new ConditionModel();
-				$condition->pid                                    = $and->id;
-				$condition->sorting                                = 128;
-				$condition->type                                   = 'page_protected';
-				$condition->page_members_accepted_protected_status = '';
+				$condition                                           = new ConditionModel();
+				$condition->pid                                      = $and->id;
+				$condition->sorting                                  = 128;
+				$condition->type                                     = 'page_protected';
+				$condition->page_protected_accepted_protected_status = '';
 				$condition->save();
 
 				// login status -> page groups

@@ -32,7 +32,7 @@ $GLOBALS['TL_DCA']['tl_xnavigation_condition']['metapalettes']['page_hide']     
 $GLOBALS['TL_DCA']['tl_xnavigation_condition']['metapalettes']['page_protected'] = array
 (
 	'condition' => array('type', 'title'),
-	'settings'  => array('page_members_accepted_protected_status', 'invert'),
+	'settings'  => array('page_protected_accepted_protected_status', 'invert'),
 );
 $GLOBALS['TL_DCA']['tl_xnavigation_condition']['metapalettes']['page_sitemap']   = array
 (
@@ -70,12 +70,12 @@ $GLOBALS['TL_DCA']['tl_xnavigation_condition']['fields']['page_guests_accepted_g
 	),
 	'sql'       => "char(1) NOT NULL default ''"
 );
-$GLOBALS['TL_DCA']['tl_xnavigation_condition']['fields']['page_members_accepted_protected_status'] = array
+$GLOBALS['TL_DCA']['tl_xnavigation_condition']['fields']['page_protected_accepted_protected_status'] = array
 (
-	'label'     => &$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_members_accepted_protected_status'],
+	'label'     => &$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_protected_accepted_protected_status'],
 	'inputType' => 'select',
 	'options'   => array('', '1'),
-	'reference' => &$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_members_accepted_protected_statuses'],
+	'reference' => &$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_protected_accepted_protected_statuses'],
 	'eval'      => array(
 		'tl_class' => 'w50',
 	),
