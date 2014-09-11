@@ -34,7 +34,7 @@ class PageGroupsCondition implements ConditionInterface
 			return false;
 		}
 
-		$pageGroups   = (array) $item->getExtra('groups');
+		$pageGroups   = deserialize($item->getExtra('groups'), true);
 
         if (empty($pageGroups)) {
             return true;
