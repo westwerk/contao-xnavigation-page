@@ -16,6 +16,7 @@ namespace Bit3\Contao\XNavigation\Page;
 use Bit3\Contao\XNavigation\Event\CreateDefaultConditionEvent;
 use Bit3\Contao\XNavigation\Event\EvaluateRootEvent;
 use Bit3\Contao\XNavigation\Model\ConditionModel;
+use Bit3\Contao\XNavigation\Page\Condition\PageTypeCondition;
 use Bit3\Contao\XNavigation\Twig\TwigExtension;
 use Bit3\Contao\XNavigation\XNavigationEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -43,18 +44,22 @@ class DefaultSubscriber implements EventSubscriberInterface
 		if ($menu->root == 'page') {
 			switch ($menu->page_root) {
 				case 'root':
+					$event->setItemType('page');
 					$event->setItemName($this->getCurrentPage()->rootId);
 					break;
 
 				case 'parent':
+					$event->setItemType('page');
 					$event->setItemName($this->getCurrentPage()->pid);
 					break;
 
 				case 'current':
+					$event->setItemType('page');
 					$event->setItemName($this->getCurrentPage()->id);
 					break;
 
 				case 'level':
+					$event->setItemType('page');
 					$level  = $menu->page_root_level;
 					$trail  = $this->getCurrentPage()->trail;
 					$pageId = isset($trail[$level])
@@ -64,14 +69,21 @@ class DefaultSubscriber implements EventSubscriberInterface
 					break;
 
 				case 'custom':
+					$event->setItemType('page');
 					$event->setItemName($menu->page_root_id);
+					break;
+
+				case 'individual':
+					$event->setItemType('pages');
+					$ids = deserialize($menu->page_root_ids_order, true);
+					$ids = implode(',', $ids);
+					$event->setItemName($ids);
 					break;
 
 				default:
 					return;
 			}
 
-			$event->setItemType('page');
 			$event->stopPropagation();
 		}
 	}
@@ -107,10 +119,40 @@ class DefaultSubscriber implements EventSubscriberInterface
 		$condition->page_hide_accepted_hide_status = '';
 		$condition->save();
 
-		// login status
+		// page type
 		$or          = new ConditionModel();
 		$or->pid     = $root->id;
 		$or->sorting = 1024;
+		$or->type    = 'or';
+		$or->save();
+
+		{
+			$condition                          = new ConditionModel();
+			$condition->pid                     = $or->id;
+			$condition->sorting                 = 128;
+			$condition->type                    = 'page_type';
+			$condition->page_type_accepted_type = 'regular';
+			$condition->save();
+
+			$condition                          = new ConditionModel();
+			$condition->pid                     = $or->id;
+			$condition->sorting                 = 256;
+			$condition->type                    = 'page_type';
+			$condition->page_type_accepted_type = 'forward';
+			$condition->save();
+
+			$condition                          = new ConditionModel();
+			$condition->pid                     = $or->id;
+			$condition->sorting                 = 512;
+			$condition->type                    = 'page_type';
+			$condition->page_type_accepted_type = 'redirect';
+			$condition->save();
+		}
+
+		// login status
+		$or          = new ConditionModel();
+		$or->pid     = $root->id;
+		$or->sorting = 2048;
 		$or->type    = 'or';
 		$or->save();
 
@@ -124,25 +166,32 @@ class DefaultSubscriber implements EventSubscriberInterface
 
 			{
 				// login status -> not protected
-				$condition                                         = new ConditionModel();
-				$condition->pid                                    = $and->id;
-				$condition->sorting                                = 128;
-				$condition->type                                   = 'page_protected';
-				$condition->page_members_accepted_protected_status = '';
+				$condition                                           = new ConditionModel();
+				$condition->pid                                      = $and->id;
+				$condition->sorting                                  = 128;
+				$condition->type                                     = 'page_protected';
+				$condition->page_protected_accepted_protected_status = '';
 				$condition->save();
 
-				// login status -> not logged in
+				// login status -> OR ...
+                $or          = new ConditionModel();
+                $or->pid     = $and->id;
+                $or->sorting = 256;
+                $or->type    = 'or';
+                $or->save();
+
+				// login status -> OR -> not logged in
 				$condition                                     = new ConditionModel();
-				$condition->pid                                = $and->id;
-				$condition->sorting                            = 256;
+				$condition->pid                                = $or->id;
+				$condition->sorting                            = 128;
 				$condition->type                               = 'member_login';
 				$condition->member_login_accepted_login_status = 'logged_out';
 				$condition->save();
 
-				// login status -> page guests only
+				// login status -> OR -> page not guests only
 				$condition                                     = new ConditionModel();
-				$condition->pid                                = $and->id;
-				$condition->sorting                            = 512;
+				$condition->pid                                = $or->id;
+				$condition->sorting                            = 256;
 				$condition->type                               = 'page_guests';
 				$condition->page_guests_accepted_guests_status = '';
 				$condition->save();
@@ -159,11 +208,11 @@ class DefaultSubscriber implements EventSubscriberInterface
 
 			{
 				// login status -> protected
-				$condition                                         = new ConditionModel();
-				$condition->pid                                    = $and->id;
-				$condition->sorting                                = 128;
-				$condition->type                                   = 'page_protected';
-				$condition->page_members_accepted_protected_status = '';
+				$condition                                           = new ConditionModel();
+				$condition->pid                                      = $and->id;
+				$condition->sorting                                  = 128;
+				$condition->type                                     = 'page_protected';
+				$condition->page_protected_accepted_protected_status = '';
 				$condition->save();
 
 				// login status -> page groups

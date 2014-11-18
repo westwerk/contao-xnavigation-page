@@ -15,21 +15,24 @@
 /**
  * Palettes
  */
-$GLOBALS['TL_DCA']['tl_xnavigation_menu']['palettes'][]                          = 'page_root';
-$GLOBALS['TL_DCA']['tl_xnavigation_menu']['metasubpalettes']['root_page']        = array('page_root');
-$GLOBALS['TL_DCA']['tl_xnavigation_menu']['metasubpalettes']['page_root_level']  = array('page_root_level');
-$GLOBALS['TL_DCA']['tl_xnavigation_menu']['metasubpalettes']['page_root_custom'] = array('page_root_id');
+$GLOBALS['TL_DCA']['tl_xnavigation_menu']['palettes'][] = 'page_root';
+
+$GLOBALS['TL_DCA']['tl_xnavigation_menu']['metasubpalettes']['root_page'] = array('page_root');
+
+$GLOBALS['TL_DCA']['tl_xnavigation_menu']['metasubselectpalettes']['page_root']['level']      = array('page_root_level');
+$GLOBALS['TL_DCA']['tl_xnavigation_menu']['metasubselectpalettes']['page_root']['custom']     = array('page_root_id');
+$GLOBALS['TL_DCA']['tl_xnavigation_menu']['metasubselectpalettes']['page_root']['individual'] = array('page_root_ids');
 
 /**
  * Fields
  */
-$GLOBALS['TL_DCA']['tl_xnavigation_menu']['fields']['page_root']       = array
+$GLOBALS['TL_DCA']['tl_xnavigation_menu']['fields']['page_root']           = array
 (
 	'label'     => &$GLOBALS['TL_LANG']['tl_xnavigation_menu']['page_root'],
 	'default'   => 'root',
 	'inputType' => 'select',
 	'filter'    => true,
-	'options'   => array('root', 'parent', 'current', 'level', 'custom'),
+	'options'   => array('root', 'parent', 'current', 'level', 'custom', 'individual'),
 	'reference' => &$GLOBALS['TL_LANG']['tl_xnavigation_menu']['page_roots'],
 	'eval'      => array(
 		'mandatory'      => true,
@@ -39,7 +42,7 @@ $GLOBALS['TL_DCA']['tl_xnavigation_menu']['fields']['page_root']       = array
 	),
 	'sql'       => "varchar(32) NOT NULL default ''"
 );
-$GLOBALS['TL_DCA']['tl_xnavigation_menu']['fields']['page_root_level'] = array
+$GLOBALS['TL_DCA']['tl_xnavigation_menu']['fields']['page_root_level']     = array
 (
 	'label'     => &$GLOBALS['TL_LANG']['tl_xnavigation_menu']['page_root_level'],
 	'default'   => '1',
@@ -51,7 +54,7 @@ $GLOBALS['TL_DCA']['tl_xnavigation_menu']['fields']['page_root_level'] = array
 	),
 	'sql'       => "int(10) NOT NULL default '0'"
 );
-$GLOBALS['TL_DCA']['tl_xnavigation_menu']['fields']['page_root_id']    = array
+$GLOBALS['TL_DCA']['tl_xnavigation_menu']['fields']['page_root_id']        = array
 (
 	'label'     => &$GLOBALS['TL_LANG']['tl_xnavigation_menu']['page_root_id'],
 	'inputType' => 'pageTree',
@@ -60,4 +63,21 @@ $GLOBALS['TL_DCA']['tl_xnavigation_menu']['fields']['page_root_id']    = array
 		'tl_class'  => 'clr',
 	),
 	'sql'       => "varchar(255) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_xnavigation_menu']['fields']['page_root_ids']       = array
+(
+	'label'     => &$GLOBALS['TL_LANG']['tl_xnavigation_menu']['page_root_ids'],
+	'inputType' => 'pageTree',
+	'eval'      => array(
+		'mandatory'  => true,
+		'multiple'   => true,
+		'fieldType'  => 'checkbox',
+		'files'      => true,
+		'orderField' => 'page_root_ids_order',
+		'tl_class'   => 'clr',
+	),
+	'sql'       => "text NULL"
+);
+$GLOBALS['TL_DCA']['tl_xnavigation_menu']['fields']['page_root_ids_order'] = array(
+	'sql' => 'text NULL',
 );

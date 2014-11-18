@@ -46,18 +46,46 @@ class PageProvider extends \Controller implements EventSubscriberInterface
 		$item = $event->getParentItem();
 
 		if ($item->getType() == 'page') {
-			$t          = \PageModel::getTable();
-			$arrColumns = array("$t.pid=?");
+			$table   = \PageModel::getTable();
+			$columns = array("$table.pid=?");
 
 			if (!BE_USER_LOGGED_IN) {
-				$time         = time();
-				$arrColumns[] = "($t.start='' OR $t.start<$time) AND ($t.stop='' OR $t.stop>$time) AND $t.published=1";
+				$time      = time();
+				$columns[] = "($table.start='' OR $table.start<$time) AND ($table.stop='' OR $table.stop>$time) AND $table.published=1";
 			}
 
 			$pages = \PageModel::findBy(
-				$arrColumns,
+				$columns,
 				array($item->getExtra('id')),
 				array('order' => 'sorting')
+			);
+
+			if ($pages) {
+				$factory = $event->getFactory();
+
+				foreach ($pages as $page) {
+					$factory->createItem('page', $page->id, $item);
+				}
+			}
+		}
+
+		if ($item->getType() == 'pages') {
+			$ids = explode(',', $item->getName());
+			$ids = array_filter($ids);
+
+			$table   = \PageModel::getTable();
+			$columns = array('(' . implode(' OR ', array_fill(0, count($ids), "$table.id=?")) . ')');
+			$sorting = "FIELD($table.id, " . implode(', ', array_fill(0, count($ids), "?")) . ")";
+
+			if (!BE_USER_LOGGED_IN) {
+				$time      = time();
+				$columns[] = "($table.start='' OR $table.start<$time) AND ($table.stop='' OR $table.stop>$time) AND $table.published=1";
+			}
+
+			$pages = \PageModel::findBy(
+				$columns,
+				array_merge($ids, $ids),
+				array('order' => $sorting)
 			);
 
 			if ($pages) {

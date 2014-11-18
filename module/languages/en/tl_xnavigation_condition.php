@@ -31,14 +31,18 @@ $GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_sitemap_accepted_sitemap_s
 	'Accepted status',
 	'Please choose the accepted status of the "show in sitemap" flag.'
 );
+$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_type_accepted_type'] = array(
+	'Accepted types',
+	'Please choose the accepted page type.'
+);
 
 /**
  * Reference
  */
 $GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_guests_accepted_guests_statuses']['']              = 'not selected';
 $GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_guests_accepted_guests_statuses']['1']             = 'selected';
-$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_members_accepted_protected_status']['']            = 'not selected';
-$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_members_accepted_protected_status']['1']           = 'selected';
+$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_protected_accepted_protected_status']['']          = 'not selected';
+$GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_protected_accepted_protected_status']['1']         = 'selected';
 $GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_hide_accepted_hide_statuses']['']                  = 'not selected';
 $GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_hide_accepted_hide_statuses']['1']                 = 'selected';
 $GLOBALS['TL_LANG']['tl_xnavigation_condition']['page_sitemap_accepted_sitemap_statuses']['map_default'] = 'default';

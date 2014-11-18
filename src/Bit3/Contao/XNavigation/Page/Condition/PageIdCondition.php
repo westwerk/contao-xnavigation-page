@@ -17,10 +17,37 @@ use Bit3\FlexiTree\Condition\ConditionInterface;
 use Bit3\FlexiTree\ItemInterface;
 
 /**
- * Class PageGroupsCondition
+ * Class PageIdCondition
  */
-class PageGroupsCondition implements ConditionInterface
+class PageIdCondition implements ConditionInterface
 {
+	/**
+	 * @var int
+	 */
+	protected $pageId;
+
+	public function __construct($pageId = false)
+	{
+		$this->pageId = $pageId !== false ? (int) $pageId : false;
+	}
+
+	/**
+	 * @param int $pageId
+	 */
+	public function setPageId($pageId)
+	{
+		$this->pageId = (int) $pageId;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPageId()
+	{
+		return $this->pageId;
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -30,20 +57,8 @@ class PageGroupsCondition implements ConditionInterface
 			return true;
 		}
 
-		if (!FE_USER_LOGGED_IN) {
-			return false;
-		}
-
-		$pageGroups   = deserialize($item->getExtra('groups'), true);
-
-        if (empty($pageGroups)) {
-            return true;
-        }
-
-		$memberGroups = \FrontendUser::getInstance()->groups;
-
-		$groups = array_intersect($memberGroups, $pageGroups);
-		return (bool) count($groups);
+		$pageId = $item->getExtra('id');
+		return $pageId == $this->pageId;
 	}
 
 	/**
@@ -51,6 +66,6 @@ class PageGroupsCondition implements ConditionInterface
 	 */
 	public function describe()
 	{
-		return 'member.groups ⊂ page.groups';
+		return sprintf('page.id == %d', $this->pageId);
 	}
 }
